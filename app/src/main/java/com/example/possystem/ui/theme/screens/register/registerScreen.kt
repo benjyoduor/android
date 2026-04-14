@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -40,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,9 +49,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.possystem.R
+import com.example.possystem.data.AuthViewModel
 import com.example.possystem.navigation.ROUTE_LOGIN
 
 @Composable
@@ -58,6 +62,11 @@ fun RegisterScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    val authViewModel: AuthViewModel = viewModel()
+    val context = LocalContext.current
+    var number by remember { mutableStateOf("") }
+
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Professional Background Image
@@ -184,10 +193,29 @@ fun RegisterScreen(navController: NavHostController) {
                         shape = RoundedCornerShape(16.dp)
                     )
 
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = number,
+                        onValueChange = { number = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Phone number") },
+                        leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Button(
-                        onClick = {},
+                        onClick = {authViewModel.signup(
+                            username=username,
+                            email=email,
+                            password=password,
+                            confirmpassword=confirmPassword,
+                            navController=navController,
+                            number=number,
+                            context=context)},
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
@@ -198,7 +226,7 @@ fun RegisterScreen(navController: NavHostController) {
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
                     ) {
                         Text(
-                            text = "CREATE CORPORATE ACCOUNT",
+                            text = "REGISTER",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.ExtraBold,
                             letterSpacing = 1.sp
