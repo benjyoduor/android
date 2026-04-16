@@ -35,14 +35,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.possystem.data.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(){
+fun AddProductScreen(navController: NavController) {
     var productName by remember { mutableStateOf("") }
     var productPrice by remember { mutableStateOf("") }
     var productQuantity by remember { mutableStateOf("") }
@@ -54,6 +59,8 @@ fun AddProductScreen(){
     ) { uri: Uri? ->
         imageUri.value = uri
     }
+    val productViewModel: ProductViewModel = viewModel()
+    val context = LocalContext.current
 
 
     Scaffold(
@@ -148,7 +155,15 @@ fun AddProductScreen(){
 
             Button(
                 onClick = {
-                    // TODO: Implement save logic
+                    productViewModel.uploadProduct(
+                        imageUri.value,
+                        productName,
+                        productPrice,
+                        productQuantity,
+                        productDescription,
+                        navController = navController,
+                        context = context
+                    )
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -161,5 +176,5 @@ fun AddProductScreen(){
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AddProductScreenPreview(){
-    AddProductScreen()
+    AddProductScreen(rememberNavController())
 }
