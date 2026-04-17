@@ -6,16 +6,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.possystem.ui.theme.screens.register.RegisterScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import com.example.possystem.ui.theme.screens.dashboard.Dashboard
 import com.example.possystem.ui.theme.screens.login.LoginScreen
 import com.example.possystem.ui.theme.screens.product.AddProductScreen
+import com.example.possystem.ui.theme.screens.product.PatientListScreen
 
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController(),
-               startDestination: String = ROUTE_ADD_PRODUCT) {
+               startDestination: String = ROUTE_VIEW_PRODUCT) {
     NavHost(navController = navController, startDestination = startDestination) {
             composable(ROUTE_REGISTER) {
             RegisterScreen(navController)}
@@ -28,8 +27,8 @@ fun AppNavHost(navController: NavHostController = rememberNavController(),
             composable(ROUTE_ADD_PRODUCT) {
                 AddProductScreen(navController)
             }
+            composable(ROUTE_VIEW_PRODUCT) {
+                PatientListScreen(navController)
+            }
     }
 }
-
-
-

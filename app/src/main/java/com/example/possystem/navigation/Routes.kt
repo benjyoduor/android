@@ -6,3 +6,5 @@ const val ROUTE_LOGIN = "login"
 const val ROUTE_DASHBOARD = "dashboard"
 
 const val ROUTE_ADD_PRODUCT = "addProduct"
+
+const val ROUTE_VIEW_PRODUCT = "viewProduct"
